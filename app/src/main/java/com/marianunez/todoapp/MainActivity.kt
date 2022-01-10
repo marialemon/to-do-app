@@ -1,10 +1,8 @@
 package com.marianunez.todoapp
 
-import android.content.ContentValues.TAG
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +12,7 @@ import com.marianunez.todoapp.adapter.ToDoAdapter
 import com.marianunez.todoapp.data.ListDataManager
 import com.marianunez.todoapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToDoAdapter.ToDoListClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -26,12 +24,16 @@ class MainActivity : AppCompatActivity() {
     // passing the context to the constructor
     private val listDataManager: ListDataManager = ListDataManager(this)
 
+    companion object {
+        const val INTENT_KEY = "list"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             showCreateDialog()
         }
 
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = binding.toDoList
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ToDoAdapter(toDoList)
+        recyclerView.adapter = ToDoAdapter(toDoList, this)
     }
 
     private fun showCreateDialog() {
@@ -69,11 +71,27 @@ class MainActivity : AppCompatActivity() {
                 listDataManager.saveList(list)
                 //update recyclerview with the list (addNewItem is a method we create)
                 adapter.addNewItem(list)
+
+                showTaskDetail(list)
             }
             .setNegativeButton(getString(R.string.alert_negative_button)) { dialog, _ ->
                 dialog.cancel()
             }
             .show()
+    }
+
+    // create intent
+    private fun showTaskDetail(list: TaskList) {
+        val taskListDetail = Intent(this, DetailActivity::class.java)
+        // putExtra daba un error porque le estamos pasando una lista y eso no está soportado
+        // para solucionarlo implementamos el parsable/parcel type que es una interface
+        // que podemos implementar en los objects
+        taskListDetail.putExtra(INTENT_KEY, list)
+        startActivity(taskListDetail)
+    }
+
+    override fun listItemClicked(list: TaskList) {
+        showTaskDetail(list)
     }
 
 }
