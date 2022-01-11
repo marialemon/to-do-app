@@ -6,4 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/toDoList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/detail_list_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:contentDescription="@string/button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
