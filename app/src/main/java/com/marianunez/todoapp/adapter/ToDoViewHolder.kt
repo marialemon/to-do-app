@@ -10,6 +10,4 @@ class ToDoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     val itemTitle = binding.itemTitle
     val itemNumber = binding.itemNumber
-
-
 }

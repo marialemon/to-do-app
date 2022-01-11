@@ -18,9 +18,9 @@ class TaskList(val title: String, val taskList: ArrayList<String> = ArrayList())
      */
     override fun describeContents(): Int = 0
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(title)
-        dest?.writeStringList(taskList)
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(title)
+        dest.writeStringList(taskList)
     }
 
     /** este companion object se crea a la misma vez que el constructor

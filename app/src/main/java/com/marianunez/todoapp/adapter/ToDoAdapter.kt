@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marianunez.todoapp.R
 import com.marianunez.todoapp.TaskList
 
-class ToDoAdapter(private val toDoList: ArrayList<TaskList>, val clickListener: ToDoListClickListener) : RecyclerView.Adapter<ToDoViewHolder>() {
+class ToDoAdapter(
+    private val toDoList: ArrayList<TaskList>,
+    private val clickListener: ToDoListClickListener
+) : RecyclerView.Adapter<ToDoViewHolder>() {
 
     /** creamos una interface para que el usuario pueda pulsar cada item y ver la vista detalle
      * una vez tenemos la interface definida, tenemos que crear un listener y podemos hacerlo
@@ -15,7 +18,6 @@ class ToDoAdapter(private val toDoList: ArrayList<TaskList>, val clickListener: 
      */
     interface ToDoListClickListener {
         fun listItemClicked(list: TaskList) {
-
         }
     }
 

@@ -1,14 +1,18 @@
 package com.marianunez.todoapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.animation.AnimationUtils
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.marianunez.todoapp.adapter.ToDoAdapter
+import com.marianunez.todoapp.adapter.ToDoViewHolder
 import com.marianunez.todoapp.data.ListDataManager
 import com.marianunez.todoapp.databinding.ActivityMainBinding
 
@@ -26,6 +30,10 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.ToDoListClickListener {
 
     companion object {
         const val INTENT_KEY = "list"
+
+        // this is the second param for startActivityForResult
+        // it can be any number that make sense
+        const val LIST_DETAIL_REQUEST_CODE = 123
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,12 +41,12 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.ToDoListClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initUI()
+
         binding.fab.setOnClickListener {
             showCreateDialog()
         }
 
-        initUI()
-        
     }
 
     private fun initUI() {
@@ -46,6 +54,26 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.ToDoListClickListener {
 
         recyclerView = binding.toDoList
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // al crear una interface en el adapter también necesitamos pasarle la activity aquí
+        // porque hemos añadido un clickListener al constructor
+        recyclerView.adapter = ToDoAdapter(toDoList, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LIST_DETAIL_REQUEST_CODE) {
+            data?.let {
+                val list = data.getParcelableExtra<TaskList>(INTENT_KEY)!!
+                listDataManager.saveList(list)
+                updateList()
+            }
+        }
+    }
+
+    private fun updateList() {
+        // this is a way to refresh the recyclerview
+        val toDoList = listDataManager.readList()
         recyclerView.adapter = ToDoAdapter(toDoList, this)
     }
 
@@ -87,11 +115,19 @@ class MainActivity : AppCompatActivity(), ToDoAdapter.ToDoListClickListener {
         // para solucionarlo implementamos el parsable/parcel type que es una interface
         // que podemos implementar en los objects
         taskListDetail.putExtra(INTENT_KEY, list)
-        startActivity(taskListDetail)
+        // we change startActivity for startActivityForResult
+        // startActivity(taskListDetail)
+        startActivityForResult(taskListDetail, LIST_DETAIL_REQUEST_CODE)
     }
 
+    /** al añadir que la MainActivity extienda también de ToDoAdapter.ToDoListClickListener
+     * necesitamos implementar esta función
+     */
     override fun listItemClicked(list: TaskList) {
         showTaskDetail(list)
     }
 
 }
+
+
+
