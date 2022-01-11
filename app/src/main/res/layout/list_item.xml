@@ -3,46 +3,43 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/background_animation"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardElevation="@dimen/cardview_default_elevation"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <ImageView
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@color/primaryColor" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp">
+        android:padding="@dimen/default_margin">
 
-        <CheckBox
-            android:id="@+id/checkbox"
+        <TextView
+            android:id="@+id/itemTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:includeFontPadding="false"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="Título" />
 
-            <TextView
-                android:id="@+id/itemTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:includeFontPadding="false"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="Título" />
+        <TextView
+            android:id="@+id/itemNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            tools:text="#1" />
 
-            <TextView
-                android:id="@+id/itemNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                tools:text="#1" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-    </LinearLayout>
 </androidx.cardview.widget.CardView>
