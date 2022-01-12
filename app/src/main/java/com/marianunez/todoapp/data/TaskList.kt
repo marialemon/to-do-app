@@ -1,4 +1,4 @@
-package com.marianunez.todoapp
+package com.marianunez.todoapp.data
 
 import android.os.Parcel
 import android.os.Parcelable

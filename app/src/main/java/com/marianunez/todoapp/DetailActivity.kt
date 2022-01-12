@@ -9,11 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.marianunez.todoapp.adapter.ToDoAdapter
 import com.marianunez.todoapp.adapter.ToDoDetailAdapter
+import com.marianunez.todoapp.data.TaskList
 import com.marianunez.todoapp.databinding.ActivityDetailBinding
-import com.marianunez.todoapp.databinding.ActivityMainBinding
 
 class DetailActivity : AppCompatActivity() {
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.marianunez.todoapp.R
-import com.marianunez.todoapp.TaskList
+import com.marianunez.todoapp.data.TaskList
 
 
 class ToDoDetailAdapter(private val toDoDetailList: TaskList) :

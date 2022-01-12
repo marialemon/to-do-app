@@ -2,7 +2,6 @@ package com.marianunez.todoapp.data
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import com.marianunez.todoapp.TaskList
 
 class ListDataManager(private val context: Context) {
 
