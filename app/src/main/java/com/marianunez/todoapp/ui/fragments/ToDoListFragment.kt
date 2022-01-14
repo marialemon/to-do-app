@@ -1,4 +1,4 @@
-package com.marianunez.todoapp.fragments
+package com.marianunez.todoapp.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.marianunez.todoapp.DetailActivity
-import com.marianunez.todoapp.MainActivity
+import com.marianunez.todoapp.ui.DetailActivity
+import com.marianunez.todoapp.ui.MainActivity
 import com.marianunez.todoapp.R
-import com.marianunez.todoapp.adapter.ToDoAdapter
+import com.marianunez.todoapp.ui.adapter.ToDoAdapter
 import com.marianunez.todoapp.data.ListDataManager
 import com.marianunez.todoapp.data.TaskList
 import com.marianunez.todoapp.databinding.FragmentTodoListBinding
@@ -47,22 +49,16 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // create object viewmodel
         activity?.let {
-            listDataManager = ListDataManager(it)
-        }
-
-        binding.fab.setOnClickListener {
-            showCreateDialog()
+            listDataManager = ViewModelProvider(this).get(ListDataManager::class.java)
         }
 
         initUI()
 
-    }
-
-    /** This companion object is what is used to create an instance of out fragment
-     */
-    companion object {
-        fun newInstance(): ToDoListFragment = ToDoListFragment()
+        binding.fab.setOnClickListener {
+            showCreateDialog()
+        }
     }
 
     private fun initUI() {
@@ -75,7 +71,11 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
         recyclerView.adapter = ToDoAdapter(toDoList, this)
     }
 
-    fun addItem(list: TaskList) {
+    override fun listItemClicked(list: TaskList) {
+        showTaskDetail(list)
+    }
+
+    private fun addItem(list: TaskList) {
         listDataManager.saveList(list)
         //add new item
         // first thing is to get our adapter from the recyclerView lateinit var above
@@ -88,12 +88,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
     fun saveList(list: TaskList) {
         listDataManager.saveList(list)
         updateList()
-    }
-
-    private fun updateList() {
-        // this is a way to refresh the recyclerview
-        val toDoList = listDataManager.readList()
-        recyclerView.adapter = ToDoAdapter(toDoList, this)
     }
 
     private fun showCreateDialog() {
@@ -118,16 +112,22 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
         }
     }
 
-    // create intent
     private fun showTaskDetail(list: TaskList) {
-        val taskListDetail = Intent(context, DetailActivity::class.java)
-        // putExtra daba un error porque le estamos pasando una lista y eso no está soportado
-        // para solucionarlo implementamos el parsable/parcel type que es una interface
-        // que podemos implementar en los objects
-        taskListDetail.putExtra(MainActivity.INTENT_KEY, list)
-        // we change startActivity for startActivityForResult
-        // startActivity(taskListDetail)
-        startActivityForResult(taskListDetail, MainActivity.LIST_DETAIL_REQUEST_CODE)
+        val action = ToDoListFragmentDirections.actionToDoListFragmentToTaskDetailFragment(list.title)
+        view?.findNavController()?.navigate(action)
+
+    }
+
+    private fun updateList() {
+        // this is a way to refresh the recyclerview
+        val toDoList = listDataManager.readList()
+        recyclerView.adapter = ToDoAdapter(toDoList, this)
+    }
+
+    /** This companion object is what is used to create an instance of out fragment
+     */
+    companion object {
+        fun newInstance(): ToDoListFragment = ToDoListFragment()
     }
 
 }

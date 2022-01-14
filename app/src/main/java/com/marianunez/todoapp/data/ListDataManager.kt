@@ -1,18 +1,12 @@
 package com.marianunez.todoapp.data
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.preference.PreferenceManager
 
-class ListDataManager(private val context: Context) {
+class ListDataManager(application: Application) : AndroidViewModel(application){
 
-    // ponemos mode 0 porque 0 significa un modo que después vamos a usar
-    // val sharedPref: SharedPreferences = context.getSharedPreferences(SHARED_NAME, 0)
-
-    /*
-    var task: String?
-        get() = sharedPref.getString(SHARED_TASK_NAME, "")
-        set(value) = sharedPref.edit().putString(SHARED_TASK_NAME, value).apply()
-     */
+    private val context by lazy { application.applicationContext }
 
     fun saveList(list: TaskList) {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(context).edit()

@@ -1,4 +1,4 @@
-package com.marianunez.todoapp.adapter
+package com.marianunez.todoapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
