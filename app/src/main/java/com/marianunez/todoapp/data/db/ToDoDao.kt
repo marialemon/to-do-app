@@ -1,8 +1,8 @@
-package com.marianunez.todoapp.data
+package com.marianunez.todoapp.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.marianunez.todoapp.data.entities.ToDoItem
+import com.marianunez.todoapp.data.db.entities.ToDoItem
 
 //this interface tells Room how we want to access our database
 @Dao

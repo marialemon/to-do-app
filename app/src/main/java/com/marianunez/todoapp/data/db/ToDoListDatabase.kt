@@ -1,10 +1,10 @@
-package com.marianunez.todoapp.data
+package com.marianunez.todoapp.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.marianunez.todoapp.data.entities.ToDoItem
+import com.marianunez.todoapp.data.db.entities.ToDoItem
 
 @Database(
     entities = [ToDoItem::class],
@@ -24,11 +24,10 @@ abstract class ToDoListDatabase : RoomDatabase() {
          */
         @Volatile
         private var instance: ToDoListDatabase? = null
-        private val LOCK = Any()
 
         // this means that this function will be executed whenever we create an instance of our database class
         // so whenever we write ToDoListDatabase() this function will be executed
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+        operator fun invoke(context: Context) = instance ?: synchronized(this) {
             //so inside we call our instance and again if its null we create a database
             instance ?: createDatabase(context).also { instance = it }
         }

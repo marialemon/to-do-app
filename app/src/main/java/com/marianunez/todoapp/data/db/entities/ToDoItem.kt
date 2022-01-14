@@ -1,4 +1,4 @@
-package com.marianunez.todoapp.data.entities
+package com.marianunez.todoapp.data.db.entities
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
