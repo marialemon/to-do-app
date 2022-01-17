@@ -8,19 +8,25 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.marianunez.todoapp.R
-import com.marianunez.todoapp.data.db.ToDoListDatabase
 import com.marianunez.todoapp.data.db.entities.ToDoItem
-import com.marianunez.todoapp.data.repositories.ToDoListRepository
 import com.marianunez.todoapp.databinding.FragmentTodoListBinding
 import com.marianunez.todoapp.ui.ToDoListViewModel
 import com.marianunez.todoapp.ui.ToDoListViewModelFactory
 import com.marianunez.todoapp.ui.adapter.ToDoAdapter
+import org.kodein.di.Kodein
+import org.kodein.di.android.x.kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.generic.instance
 
-class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
+class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener, KodeinAware {
+
+    override val kodein: Kodein by kodein()
+    private val factory: ToDoListViewModelFactory by instance()
 
     //el binding en un fragment es un poco distinto
     // este vídeo lo explica bien: https://www.youtube.com/watch?v=yE2Y2q4iWpU&ab_channel=Programaci%C3%B3nAndroidbyAristiDevs
@@ -34,8 +40,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
     // create a property that stores an instance of the ListDataManager class
     // passing the context to the constructor
     private lateinit var viewModel: ToDoListViewModel
-
-    private lateinit var database: ToDoListDatabase
 
     /** onCreateView method is when the fragment acquires a layout
      * it must have in order to be presented within the activity
@@ -51,21 +55,13 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // this is a bad practice because if we delete this fragment we lose the instances
-        // create object viewmodel
-        activity?.let {
-            database = ToDoListDatabase(it)
-        }
-
-        val repository = ToDoListRepository(database)
-        val factory = ToDoListViewModelFactory(repository)
         // to do this we need to create a ViewModelFactory and here pass it in the ViewModelProvider
         viewModel = ViewModelProvider(this, factory)[ToDoListViewModel::class.java]
 
         initUI()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initUI() {
         val adapter = ToDoAdapter(listOf(), this, viewModel)
         recyclerView = binding.toDoList
@@ -85,12 +81,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
         }
     }
 
-    /*
-    override fun listItemClicked(list: ToDoItem) {
-        showTaskDetail(list)
-    }
-    */
-
     private fun showCreateDialog() {
         activity?.let {
             val editText = EditText(it) // "it" means FragmentActivity context if the activity exist
@@ -103,7 +93,7 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
                 .setPositiveButton(getString(R.string.alert_positive_button)) { dialog, _ ->
                     val item = ToDoItem(editText.text.toString())
                     //create empty task list passing the edittext as the title
-                    viewModel.upsert(item)
+                    viewModel.insert(item)
                 }
                 .setNegativeButton(getString(R.string.alert_negative_button)) { dialog, _ ->
                     dialog.cancel()
@@ -112,14 +102,17 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener {
         }
     }
 
-    /*
+    override fun listItemClicked(list: ToDoItem) {
+        showTaskDetail(list)
+    }
+
     private fun showTaskDetail(list: ToDoItem) {
         val action =
             ToDoListFragmentDirections.actionToDoListFragmentToTaskDetailFragment(list.name)
         view?.findNavController()?.navigate(action)
 
     }
-    */
+
 
     /** This companion object is what is used to create an instance of out fragment
      */
