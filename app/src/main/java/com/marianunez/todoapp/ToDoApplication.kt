@@ -14,6 +14,8 @@ import org.kodein.di.generic.singleton
 
 class ToDoApplication() : Application(), KodeinAware {
 
+    // this tutorial explains it: https://www.youtube.com/watch?v=8Pl1EVgenkg&list=PLQkwcJG4YTCT0RouHZ6sQlE4JE6VyD2zO&index=6
+
     override val kodein: Kodein = Kodein.lazy {
         import(androidXModule(this@ToDoApplication))
         bind() from singleton { ToDoListDatabase(instance()) }
