@@ -9,7 +9,7 @@ import com.marianunez.todoapp.data.db.entities.ToDoItem
 interface ToDoDao {
     //update and insert
     @Insert(onConflict = OnConflictStrategy.REPLACE) // this means if the id is on the database we want to replace it instead
-    suspend fun upsert(item: ToDoItem)
+    suspend fun insert(item: ToDoItem)
 
     @Delete
     suspend fun delete(item: ToDoItem)

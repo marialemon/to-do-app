@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 class ToDoListViewModel(private val repository: ToDoListRepository) : ViewModel() {
     // this is not a suspend fun because inside of it we are going to do a coroutine
     // we put Dispatchers.Main because Main is Main context thread and Room provides Main safety (?)
-    fun upsert(item: ToDoItem) = CoroutineScope(Dispatchers.Main).launch {
-        repository.upsert(item)
+    fun insert(item: ToDoItem) = CoroutineScope(Dispatchers.Main).launch {
+        repository.insert(item)
     }
 
     fun delete(item: ToDoItem) = CoroutineScope(Dispatchers.Main).launch {

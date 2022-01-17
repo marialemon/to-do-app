@@ -4,7 +4,7 @@ import com.marianunez.todoapp.data.db.ToDoListDatabase
 import com.marianunez.todoapp.data.db.entities.ToDoItem
 
 class ToDoListRepository(private val db: ToDoListDatabase) {
-    suspend fun upsert(item: ToDoItem) = db.getToDoDao().upsert(item)
+    suspend fun insert(item: ToDoItem) = db.getToDoDao().insert(item)
 
     suspend fun delete(item: ToDoItem) = db.getToDoDao().delete(item)
 
