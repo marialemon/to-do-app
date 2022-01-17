@@ -6,3 +6,4 @@
 - Live Data
 - Room for Database
 - Coroutines
+- Kodein for dependency injection
