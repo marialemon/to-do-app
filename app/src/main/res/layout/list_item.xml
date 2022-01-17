@@ -33,13 +33,14 @@
             android:textStyle="bold"
             tools:text="Título" />
 
-        <TextView
-            android:id="@+id/itemNumber"
+        <ImageView
+            android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            tools:text="#1" />
+            app:srcCompat="@android:drawable/ic_delete"
+            />
 
     </RelativeLayout>
 

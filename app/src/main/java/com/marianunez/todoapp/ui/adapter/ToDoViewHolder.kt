@@ -9,5 +9,5 @@ class ToDoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ListItemBinding.bind(view)
 
     val itemTitle = binding.itemTitle
-    val itemNumber = binding.itemNumber
+    val deleteButton = binding.remove
 }
