@@ -1,6 +1,5 @@
 package com.marianunez.todoapp.ui.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +18,8 @@ import com.marianunez.todoapp.ui.ToDoListViewModel
 import com.marianunez.todoapp.ui.ToDoListViewModelFactory
 import com.marianunez.todoapp.ui.adapter.ToDoAdapter
 import org.kodein.di.Kodein
-import org.kodein.di.android.x.kodein
 import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener, KodeinAware {
@@ -52,7 +51,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener, KodeinAw
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // to do this we need to create a ViewModelFactory and here pass it in the ViewModelProvider
@@ -61,7 +59,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener, KodeinAw
         initUI()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun initUI() {
         val adapter = ToDoAdapter(listOf(), this, viewModel)
         recyclerView = binding.toDoList
@@ -110,14 +107,6 @@ class ToDoListFragment : Fragment(), ToDoAdapter.ToDoListClickListener, KodeinAw
         val action =
             ToDoListFragmentDirections.actionToDoListFragmentToTaskDetailFragment(list.name)
         view?.findNavController()?.navigate(action)
-
-    }
-
-
-    /** This companion object is what is used to create an instance of out fragment
-     */
-    companion object {
-        fun newInstance(): ToDoListFragment = ToDoListFragment()
     }
 
 }

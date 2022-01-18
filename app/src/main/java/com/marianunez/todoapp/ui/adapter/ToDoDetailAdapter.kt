@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marianunez.todoapp.R
 import com.marianunez.todoapp.data.TaskList
 
-
 class ToDoDetailAdapter(private val toDoDetailList: TaskList) :
     RecyclerView.Adapter<ToDoDetailViewHolder>() {
 

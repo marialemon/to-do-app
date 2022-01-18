@@ -7,15 +7,16 @@
     <fragment
         android:id="@+id/toDoListFragment"
         android:name="com.marianunez.todoapp.ui.fragments.ToDoListFragment"
-        android:label="ToDoListFragment" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_toDoListFragment_to_taskDetailFragment"
             app:destination="@id/taskDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/taskDetailFragment"
         android:name="com.marianunez.todoapp.ui.fragments.TaskDetailFragment"
-        android:label="TaskDetailFragment" >
+        android:label="@string/second_fragment_label">
         <action
             android:id="@+id/action_taskDetailFragment_to_toDoListFragment"
             app:destination="@id/toDoListFragment" />
@@ -23,4 +24,5 @@
             android:name="list_string"
             app:argType="string" />
     </fragment>
+
 </navigation>

@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 // we need to add members and add parcelable implementation
-class TaskList(val title: String, val taskList: ArrayList<String> = ArrayList()): Parcelable {
+class TaskList(private val name: String, val taskList: ArrayList<String> = ArrayList()): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -19,7 +19,7 @@ class TaskList(val title: String, val taskList: ArrayList<String> = ArrayList())
     override fun describeContents(): Int = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(title)
+        dest.writeString(name)
         dest.writeStringList(taskList)
     }
 
